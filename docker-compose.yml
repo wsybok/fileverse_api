@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fileverse-api
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - CHAIN=${CHAIN}
+      - PRIVATE_KEY=${PRIVATE_KEY}
+      - PINATA_JWT=${PINATA_JWT}
+      - PINATA_GATEWAY=${PINATA_GATEWAY}
+      - PIMLICO_API_KEY=${PIMLICO_API_KEY}
+      - PORT=3000
+    volumes:
+      - ./src:/app/src
+      - ./creds:/app/creds
+      - ./.env:/app/.env
+    networks:
+      - fileverse-network
+
+networks:
+  fileverse-network:
+    driver: bridge 
