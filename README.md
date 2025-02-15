@@ -1,159 +1,127 @@
-# Fileverse API 服务
+# Fileverse API Service
 
-这是一个基于 Fileverse SDK 的 API 服务，提供文件管理功能。
+A robust API service built on top of the Fileverse SDK, providing decentralized file management capabilities.
 
-## 功能特性
+## Features
 
-- 文件创建、读取、更新和删除
-- 基于 Fileverse SDK 的去中心化存储
-- 区块链交互功能（区块号查询等）
-- Docker 容器化部署支持
-- 安全的环境变量配置
+- File CRUD operations (Create, Read, Update, Delete)
+- Decentralized storage using Fileverse SDK
+- Blockchain interaction (block number queries, etc.)
+- Docker containerization support
+- Secure environment configuration
+- Advanced logging system with rotation
 
-## 技术栈
+## Tech Stack
 
 - Node.js
 - Express.js
 - Fileverse SDK
 - Docker
+- Winston (for logging)
 
-## 开始使用
+## Getting Started
 
-### 环境要求
+### Prerequisites
 
 - Node.js 18+
-- Docker (可选)
-- Docker Compose (可选)
+- Docker (optional)
+- Docker Compose (optional)
 
-### 安装
+### Installation
 
-1. 克隆仓库：
+1. Clone the repository:
 ```bash
 git clone <your-repo-url>
 cd fileverse-api
 ```
 
-2. 安装依赖：
+2. Install dependencies:
 ```bash
 npm install
 ```
 
-3. 配置环境变量：
+3. Configure environment variables:
 ```bash
 cp .env.example .env
 ```
-编辑 .env 文件，填入必要的配置信息。
+Edit the `.env` file with your configuration.
 
-### 重要说明
+### Pimlico Configuration
 
-1. **凭证管理**：
-   - `/creds` 目录用于存储 Fileverse SDK 的凭证文件
-   - 该目录已添加到 `.gitignore` 以确保安全性
-   - 如遇到 "Role missing" 错误：
-     1. 删除 `/creds` 目录中的 JSON 文件
-     2. 确保已正确设置 `PRIVATE_KEY` 环境变量
-     3. 重新运行服务
+Pimlico is used for ERC-4337 (Account Abstraction) transactions. You need to:
 
-2. **文件加密**：
-   - Fileverse SDK 目前不直接支持文件加密
-   - 如需加密，请在应用层实现
-   - 未来版本将支持更多存储网络和加密功能
+1. Register at [Pimlico Dashboard](https://dashboard.pimlico.io/)
+2. Obtain your API key
+3. Fund your account:
+   - Log into Pimlico Dashboard
+   - Click "Add Funds" or "Deposit"
+   - Choose payment method (credit card or crypto)
+   - Enter amount (recommended minimum: 0.01 USD)
+   - Complete payment process
+   - Wait for balance update (usually within minutes)
+4. Add your API key to `.env`:
+```env
+PIMLICO_API_KEY=your_api_key_here
+```
 
-### 运行
+Note:
+- Each transaction requires a balance (approximately 0.006 USD/transaction)
+- Maintain a balance above 0.01 USD
+- Balance alerts can be set up in the Dashboard
+- Auto-funding is available (configurable in Dashboard)
 
-#### 本地开发
+### Important Notes
+
+1. **Credential Management**:
+   - `/creds` directory stores Fileverse SDK credentials
+   - Directory is included in `.gitignore` for security
+   - If you encounter "Role missing" error:
+     1. Delete JSON files in `/creds` directory
+     2. Ensure `PRIVATE_KEY` is correctly set in environment
+     3. Restart the service
+
+2. **File Encryption**:
+   - File encryption not directly supported by Fileverse SDK
+   - Implement encryption at application level if needed
+   - Future versions will support more storage networks and encryption
+
+### Running the Service
+
+#### Development
 ```bash
 npm run dev
 ```
 
-#### 生产环境
+#### Production
 ```bash
 npm start
 ```
 
-#### Docker 部署
-使用 Docker：
+#### Docker Deployment
+Using Docker:
 ```bash
 docker build -t fileverse-api .
 docker run -p 3000:3000 --env-file .env fileverse-api
 ```
 
-使用 Docker Compose（推荐）：
+Using Docker Compose (recommended):
 ```bash
-# 启动服务
+# Start service
 docker-compose up -d
 
-# 查看日志
+# View logs
 docker-compose logs -f
 
-# 停止服务
+# Stop service
 docker-compose down
 ```
 
-## API 端点
-
-### GET /api/block-number
-获取最新区块号
-```javascript
-// 示例响应
-{
-    "blockNumber": "12345678"
-}
-```
-
-### POST /api/files
-创建新文件
-```javascript
-// 请求示例
-{
-    "content": "Hello World"
-}
-
-// 响应示例
-{
-    "fileId": "xxx",
-    "content": "Hello World"
-}
-```
-
-### GET /api/files/:fileId
-获取文件内容
-```javascript
-// 响应示例
-{
-    "fileId": "xxx",
-    "content": "Hello World"
-}
-```
-
-### PUT /api/files/:fileId
-更新文件内容
-```javascript
-// 请求示例
-{
-    "content": "Hello World 2"
-}
-
-// 响应示例
-{
-    "fileId": "xxx",
-    "content": "Hello World 2"
-}
-```
-
-### DELETE /api/files/:fileId
-删除文件
-```javascript
-// 响应示例
-{
-    "success": true
-}
-```
+## API Endpoints
 
 ### GET /health
-健康检查端点
+Health check endpoint
 ```javascript
-// 响应示例
+// Response example
 {
     "status": "ok",
     "agent": "initialized",
@@ -162,36 +130,103 @@ docker-compose down
 }
 ```
 
-## 环境变量
+### GET /api/block-number
+Get latest block number
+```javascript
+// Response example
+{
+    "blockNumber": "12345678"
+}
+```
 
-- `CHAIN`: 区块链网络 (gnosis 或 sepolia)
-- `PRIVATE_KEY`: 私钥
+### POST /api/files
+Create new file
+```javascript
+// Request example
+{
+    "content": "Hello World"
+}
+
+// Response example
+{
+    "fileId": "xxx",
+    "content": "Hello World"
+}
+```
+
+### GET /api/files/:fileId
+Get file content
+```javascript
+// Response example
+{
+    "fileId": "xxx",
+    "content": "Hello World"
+}
+```
+
+### PUT /api/files/:fileId
+Update file content
+```javascript
+// Request example
+{
+    "content": "Hello World 2"
+}
+
+// Response example
+{
+    "fileId": "xxx",
+    "content": "Hello World 2"
+}
+```
+
+### DELETE /api/files/:fileId
+Delete file
+```javascript
+// Response example
+{
+    "success": true
+}
+```
+
+## Environment Variables
+
+- `CHAIN`: Blockchain network (gnosis or sepolia)
+- `PRIVATE_KEY`: Private key (optional)
 - `PINATA_JWT`: Pinata JWT token
-- `PINATA_GATEWAY`: Pinata 网关
-- `PIMLICO_API_KEY`: Pimlico API 密钥
-- `PORT`: API 服务端口 (默认: 3000)
-- `NODE_ENV`: 运行环境 (development/production)
+- `PINATA_GATEWAY`: Pinata gateway
+- `PIMLICO_API_KEY`: Pimlico API key (required with sufficient balance)
+- `PORT`: API service port (default: 3000)
+- `NODE_ENV`: Runtime environment (development/production)
+- `LOG_LEVEL`: Logging level (error/warn/info/debug)
 
-## 故障排除
+## Troubleshooting
 
-### Role Missing 错误
-如果遇到 "Role missing" 错误，请按以下步骤操作：
-1. 删除 `/creds` 目录中的所有 JSON 文件
-2. 确保 `.env` 文件中的 `PRIVATE_KEY` 已正确设置
-3. 重启服务
+### Insufficient Pimlico Balance
+If you encounter "Insufficient Pimlico balance" error:
+1. Visit [Pimlico Dashboard](https://dashboard.pimlico.io/)
+2. Log into your account
+3. Add funds (recommended minimum 0.01 USD)
+4. Retry operation
 
-### 文件加密
-目前 SDK 不直接支持文件加密。如果您的应用需要加密功能，请在应用层实现。我们建议：
-- 在发送到 API 之前在客户端加密数据
-- 使用标准的加密库和算法
-- 安全地管理加密密钥
+### Role Missing Error
+If you encounter "Role missing" error:
+1. Delete all JSON files in `/creds` directory
+2. Verify `.env` configuration
+3. Restart service
 
-## 安全注意事项
+### File Encryption
+Currently, SDK doesn't directly support file encryption. If your application requires encryption:
+- Encrypt data on client-side before sending to API
+- Use standard encryption libraries and algorithms
+- Implement secure key management
 
-- 确保 .env 文件不被提交到版本控制系统
-- 保护好私钥和 API 密钥
-- 在生产环境中使用安全的密钥管理系统
-- 定期备份 `/creds` 目录内容
+## Security Considerations
+
+- Keep `.env` file out of version control
+- Protect private keys and API keys
+- Use secure key management in production
+- Backup `/creds` directory contents regularly
+- Monitor Pimlico account balance
 
 ## License
 
