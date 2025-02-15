@@ -3,6 +3,11 @@
 A robust API service built on top of the [Fileverse SDK](https://www.npmjs.com/package/@fileverse/agents), providing decentralized file management capabilities.
 
 For more information visit [Fileverse](https://fileverse.io/)
+## Safe-Hackthon Example 
+Agnet: https://gnosisscan.io/address/0xc4fdb8516e5a7dfa501ee432df40b8f34ea88b9a
+example output: https://ipfs.io/ipfs/bafkreigr3v3yophf5hwtwujqoxnhre4n2rft4ay6rq7enfffkpuks5dwuu
+<img width="497" alt="Screenshot 2025-02-15 at 1 04 52 PM" src="https://github.com/user-attachments/assets/ced0ee25-730c-48c4-8c6e-8e81954b0c97" />
+
 ## Features
 
 - File CRUD operations (Create, Read, Update, Delete)
