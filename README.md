@@ -1,6 +1,7 @@
 # Fileverse API Service
 
 A robust API service built on top of the [Fileverse SDK](https://www.npmjs.com/package/@fileverse/agents), providing decentralized file management capabilities.
+
 For more information visit [Fileverse](https://fileverse.io/)
 ## Features
 
