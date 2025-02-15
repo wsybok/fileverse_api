@@ -17,9 +17,11 @@ services:
       - PINATA_GATEWAY=${PINATA_GATEWAY}
       - PIMLICO_API_KEY=${PIMLICO_API_KEY}
       - PORT=3000
+      - LOG_LEVEL=${LOG_LEVEL:-info}
     volumes:
       - ./src:/app/src
       - ./creds:/app/creds
+      - ./logs:/app/logs
       - ./.env:/app/.env
     networks:
       - fileverse-network

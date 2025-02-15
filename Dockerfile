@@ -8,6 +8,8 @@ RUN npm install
 
 COPY . .
 
+ENV NODE_OPTIONS="--experimental-vm-modules"
+
 EXPOSE 3000
 
 CMD ["npm", "start"] 
